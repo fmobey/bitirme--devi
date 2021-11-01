@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "477815103636",
+    "firebase_url": "https://utkuhoca-bitirme-default-rtdb.firebaseio.com",
+    "project_id": "utkuhoca-bitirme",
+    "storage_bucket": "utkuhoca-bitirme.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:477815103636:android:47137ba4e52aa57ad09481",
+        "android_client_info": {
+          "package_name": "com.fmobey.suyumuz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "477815103636-su4kghgfdikqn1i0f0nco4npjp1fiuh0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdtmUXAc2gBD2SLn8D7p-ZO1akV2UrBpI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "477815103636-su4kghgfdikqn1i0f0nco4npjp1fiuh0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
