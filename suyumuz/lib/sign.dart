@@ -3,16 +3,10 @@ import 'dart:async';
 import 'package:iconsax/iconsax.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:suyumuz/anasayfa.dart';
-import 'package:suyumuz/forgatpassword.dart';
-import 'package:suyumuz/sign.dart';
 
-void main() async {
-  runApp(MyApp());
-  await Firebase.initializeApp();
-}
+import 'package:suyumuz/main.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,22 +32,31 @@ TextEditingController username1 = TextEditingController();
 TextEditingController password1 = TextEditingController();
 String username2 = "";
 String password2 = "";
+bool _navi = false;
 
 class _MyHomePageState extends State<MyHomePage> {
-  signInWithEmailAndPassword() async {
+  createUserWithEmailAndPassword() async {
+    await Firebase.initializeApp();
+
     try {
       UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
+          .createUserWithEmailAndPassword(
               email: username2.toString(), password: password2.toString());
       if (UserCredential != null) {
-        return runApp(MyApp1());
+        setState(() {
+          _navi = true;
+        });
+      } else {
+        _navi = false;
       }
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
       }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -63,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
       username2 = username1.text.toString();
       password2 = password1.text.toString();
     });
-    signInWithEmailAndPassword();
+    createUserWithEmailAndPassword();
   }
 
   @override
@@ -199,8 +202,8 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 20,
             ),
             TextField(
-              controller: password1,
               obscureText: true,
+              controller: password1,
               cursorColor: Colors.black,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(0.0),
@@ -234,37 +237,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyApp2()),
-                    );
-                  },
-                  child: Text(
-                    'Forgot Password?',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400),
-                  ),
-                )
-              ],
-            ),
             SizedBox(
               height: 30,
             ),
             MaterialButton(
               onPressed: () {
                 loginbutton();
+                if (_navi == true) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyApp()),
+                  );
+                }
               },
               height: 45,
               color: Colors.black,
               child: Text(
-                "Login",
+                "Register",
                 style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
@@ -274,33 +263,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(
               height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Don\'t have an account?',
-                  style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w400),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyApp3()),
-                    );
-                  },
-                  child: Text(
-                    'Register',
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400),
-                  ),
-                )
-              ],
             ),
           ],
         ),

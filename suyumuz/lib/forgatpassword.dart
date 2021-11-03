@@ -4,15 +4,8 @@ import 'package:iconsax/iconsax.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:suyumuz/anasayfa.dart';
-import 'package:suyumuz/forgatpassword.dart';
-import 'package:suyumuz/sign.dart';
 
-void main() async {
-  runApp(MyApp());
-  await Firebase.initializeApp();
-}
-
-class MyApp extends StatelessWidget {
+class MyApp2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,35 +28,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 TextEditingController username1 = TextEditingController();
-TextEditingController password1 = TextEditingController();
+
 String username2 = "";
-String password2 = "";
 
 class _MyHomePageState extends State<MyHomePage> {
-  signInWithEmailAndPassword() async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: username2.toString(), password: password2.toString());
-      if (UserCredential != null) {
-        return runApp(MyApp1());
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
-    }
+  Future<void> resetPassword(String email) async {
+    await Firebase.initializeApp();
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
 
   int activeIndex = 0;
   loginbutton() {
     setState(() {
       username2 = username1.text.toString();
-      password2 = password1.text.toString();
     });
-    signInWithEmailAndPassword();
+    resetPassword(username2);
   }
 
   @override
@@ -166,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(0.0),
                 labelText: 'Email',
-                hintText: 'Just e-mail',
+                hintText: 'Username or e-mail',
                 labelStyle: TextStyle(
                   color: Colors.black,
                   fontSize: 14.0,
@@ -198,62 +177,6 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               height: 20,
             ),
-            TextField(
-              controller: password1,
-              obscureText: true,
-              cursorColor: Colors.black,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(0.0),
-                labelText: 'Password',
-                hintText: 'Password',
-                hintStyle: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14.0,
-                ),
-                labelStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w400,
-                ),
-                prefixIcon: Icon(
-                  Iconsax.key,
-                  color: Colors.black,
-                  size: 18,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade200, width: 2),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                prefixStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18.0,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black, width: 1.5),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyApp2()),
-                    );
-                  },
-                  child: Text(
-                    'Forgot Password?',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400),
-                  ),
-                )
-              ],
-            ),
             SizedBox(
               height: 30,
             ),
@@ -264,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 45,
               color: Colors.black,
               child: Text(
-                "Login",
+                "Reset Password",
                 style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
@@ -274,33 +197,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(
               height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Don\'t have an account?',
-                  style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w400),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyApp3()),
-                    );
-                  },
-                  child: Text(
-                    'Register',
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400),
-                  ),
-                )
-              ],
             ),
           ],
         ),
