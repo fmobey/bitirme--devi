@@ -98,13 +98,13 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 child: SfRadialGauge(
                   axes: <RadialAxis>[
-                    RadialAxis(minimum: 0, maximum: 30, ranges: <GaugeRange>[
+                    RadialAxis(minimum: 0, maximum: 70, ranges: <GaugeRange>[
                       GaugeRange(
-                          startValue: 0, endValue: 10, color: Colors.blue),
+                          startValue: 0, endValue: 20, color: Colors.blue),
                       GaugeRange(
-                          startValue: 10, endValue: 20, color: Colors.green),
+                          startValue: 20, endValue: 40, color: Colors.green),
                       GaugeRange(
-                          startValue: 20, endValue: 30, color: Colors.red)
+                          startValue: 40, endValue: 70, color: Colors.red)
                     ], pointers: <GaugePointer>[
                       NeedlePointer(value: snapshot.value['Anlik'])
                     ], annotations: <GaugeAnnotation>[
@@ -150,12 +150,24 @@ class _MyHomePageState extends State<MyHomePage> {
                             fontWeight: FontWeight.w500,
                             color: Colors.white),
                       ),
-                      Text(
-                        snapshot.value['Toplam'].toString(),
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            snapshot.value['Toplam'].toString(),
+                            style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          ),
+                          Text(
+                            snapshot.value['Birim'].toString(),
+                            style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          )
+                        ],
                       ),
                     ],
                   ),
